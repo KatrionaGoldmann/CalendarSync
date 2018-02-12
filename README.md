@@ -27,6 +27,12 @@ The function df_to_ics reads in five inputs:
 * calendarName - the name of the calendar when imported (default="New Calendar")
 * reminder - the number of hours prior to the event at which to receive a reminder. If reminder = NULL then there is no reminder (default=NULL)
 
+### Syncing ics feed to calendar
+Once the ics file is created save it to github/dropbox/google drive and use this url to sync. For github open the ics file then click 'raw' and use this url. To then sync this to the calendar:
+* For iCal: File > New Calendar Subscription ... > Insert URL
+* For Google: + ( next to Add a friend's calendar) > From URL 
+* For Outlook: Add Calendar > From the Internet
+
 ## Examples
 To create an ics file for the [WHRI Computational Biology Journal Club schedule](https://github.com/WHRICompBio/WHRICompBio.github.io/blob/master/_data/schedule.csv):
 ```
