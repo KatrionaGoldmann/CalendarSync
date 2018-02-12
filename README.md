@@ -2,7 +2,8 @@
 
 This repository contains scripts which convert schedules in data frame or csv format to ics format files compatible with calendar feeds. 
 
-*DF_to_ICS.py* contains the function which converts dataframes to ics files. 
+*DF_to_ICS.py* contains the function which converts dataframes to ics files.
+*WHRI_JC_Sync.py* script which converts the WHRI Computational Biology Journal Club schedule to an ics file feed
 
 ## Getting Started
 **Input data frame** must be of the format:
