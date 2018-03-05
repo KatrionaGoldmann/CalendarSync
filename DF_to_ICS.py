@@ -42,16 +42,20 @@ def df_to_ics(DF, Filename, Hour, CalendarName="New Calendar", Reminder='NULL'):
     DF['End Date'] = [get_date(x) for x in DF['End Date']]
 
     F = open(Filename, "w")
-    F.write("BEGIN:VCALENDAR\nPRODID:-//CSV to iCal Convertor//KatrionaGoldmann//EN\nCALSCALE:GREGORIAN\nX-WR-CALNAME;VALUE=TEXT:" + CalendarName + "\n")
+    F.write("BEGIN:VCALENDAR\nPRODID:-//CSV to iCal Convertor//KatrionaGoldmann//EN\nMETHOD:PUBLISH\nX-MS-OLK-FORCEINSPECTOROPEN:TRUE\nX-WR-CALNAME;VALUE=TEXT:" + CalendarName + "\n")
 
     for index, row in DF.iterrows():
-        F.write("BEGIN:VEVENT\n")
-        F.write("SUMMARY:" + row['Subject'] + "\n")
-        F.write("DESCRIPTION:" + "\n")
-        F.write("DTSTAMP:" + row['Start Date'] + "T" + str(row['Start Time']) + "\n")
-        F.write("DTSTART:" + row['Start Date'] + "T" + str(row['Start Time']) + "\n")
-        F.write("DTEND:" + row['End Date'] + "T" + str(row['End Time'])+ "\n")
+        F.write("BEGIN:VEVENT\nCLASS:PUBLIC\n")
+        F.write("DESCRIPTION:" + row['Subject'] + "\n")
         F.write("LOCATION:" + row['Location'] + "\n")
+        F.write("DTSTAMP:" + row['Start Date'] + "T" + str(row['Start Time'])  + "Z" + "\n")
+        F.write("DTSTART:" + row['Start Date'] + "T" + str(row['Start Time'])  + "Z" + "\n")
+        F.write("DTEND:" + row['End Date'] + "T" + str(row['End Time']) + "Z" + "\n")
+        F.write("UID:" + row['Subject'].split(' ', 1)[0] + row['Start Date'] + "T" + str(row['Start Time']) + "\n")
+        F.write("PRIORITY:5" + "\n")
+        F.write("SEQUENCE:0" + "\n")
+        F.write("SUMMARY;LANGUAGE=en-us:" + row['Subject'] + "\n")
+        F.write("X-MICROSOFT-CDO-ALLDAYEVENT:FALSE\nX-MICROSOFT-MSNCALENDAR-ALLDAYEVENT:FALSE\n")
         if Reminder != 'NULL':
             F.write("BEGIN:VALARM\nTRIGGER:-PT" + str(Reminder) +"H\nREPEAT:1\nACTION:DISPLAY\nDESCRIPTION:Reminder\nEND:VALARM\n")
         F.write("END:VEVENT" + "\n")

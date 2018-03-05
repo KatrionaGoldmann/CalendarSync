@@ -11,7 +11,7 @@ data['Start Time'] = "2:00pm"
 data['All Day'] = "FALSE"
 data['Description'] = ""
 data['UID'] = ""
-data['Location'] = "biopharmacology meeting room"
+data['Location'] = "Biopharmacology meeting room"
 
 data = data[["Subject", "Start Date", "Start Time", "End Date", "End Time", "All Day", "Description",	"Location",	"UID"]]
 
