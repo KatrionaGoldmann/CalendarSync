@@ -46,7 +46,7 @@ def df_to_ics(DF, Filename, Hour, CalendarName="New Calendar", Reminder='NULL'):
 
     for index, row in DF.iterrows():
         F.write("BEGIN:VEVENT\nCLASS:PUBLIC\n")
-        F.write("DESCRIPTION:" + row['Subject'] + "\n")
+        F.write("DESCRIPTION:" + row['Description'] + "\n")
         F.write("LOCATION:" + row['Location'] + "\n")
         F.write("DTSTAMP:" + row['Start Date'] + "T" + str(row['Start Time'])  + "\n")
         F.write("DTSTART:" + row['Start Date'] + "T" + str(row['Start Time'])  + "\n")
@@ -57,7 +57,7 @@ def df_to_ics(DF, Filename, Hour, CalendarName="New Calendar", Reminder='NULL'):
         F.write("SUMMARY;LANGUAGE=en-us:" + row['Subject'] + "\n")
         F.write("X-MICROSOFT-CDO-ALLDAYEVENT:FALSE\nX-MICROSOFT-MSNCALENDAR-ALLDAYEVENT:FALSE\n")
         if Reminder != 'NULL':
-            F.write("BEGIN:VALARM\nTRIGGER:-PT" + str(Reminder) +"H\nACTION:DISPLAY\nDESCRIPTION:REMINDER\nEND:VALARM\n")
+            F.write("BEGIN:VALARM\nTRIGGER:-PT" + str(Reminder) +"H\nACTION:DISPLAY\nEND:VALARM\n")
         F.write("END:VEVENT" + "\n")
 
     F.write("END:VCALENDAR")

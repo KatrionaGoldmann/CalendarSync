@@ -9,7 +9,7 @@ data['End Date'] = data['Start Date']
 data['End Time'] = "3:00pm"
 data['Start Time'] = "2:00pm"
 data['All Day'] = "FALSE"
-data['Description'] = ""
+data['Description'] = "see schedule and agenda: https://whricompbio.github.io"
 data['UID'] = ""
 data['Location'] = "Biopharmacology meeting room"
 
