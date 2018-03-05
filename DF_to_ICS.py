@@ -42,7 +42,7 @@ def df_to_ics(DF, Filename, Hour, CalendarName="New Calendar", Reminder='NULL'):
     DF['End Date'] = [get_date(x) for x in DF['End Date']]
 
     F = open(Filename, "w")
-    F.write("BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//CSV to iCal Convertor//KatrionaGoldmann//EN\nCALSCALE:GREGORIAN\nX-WR-CALNAME;VALUE=TEXT:" + CalendarName + "\n")
+    F.write("BEGIN:VCALENDAR\nPRODID:-//CSV to iCal Convertor//KatrionaGoldmann//EN\nCALSCALE:GREGORIAN\nX-WR-CALNAME;VALUE=TEXT:" + CalendarName + "\n")
 
     for index, row in DF.iterrows():
         F.write("BEGIN:VEVENT\n")
