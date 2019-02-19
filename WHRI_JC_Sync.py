@@ -9,6 +9,7 @@ data = data_safe
 data['Subject'] = data['Presenter'] + " presenting at journal club"
 
 data['Start Date'] = data['Date']
+print(data['Start Date'] )
 data['End Date'] = data['Date']
 data['Start Time'] = data['Start Time'].astype(str).str.split().str[1]
 data['Start Time'] = data['Start Time'].str.split(":").str[0] + ':' + data['Start Time'].str.split(":").str[1]
@@ -23,7 +24,8 @@ data['Location'] = data['Location'].fillna("Biopharmacology meeting room")
 
 data = data[["Subject", "Start Date", "Start Time", "End Date", "End Time", "All Day", "Description",	"Location",	"UID"]]
 
-print(data.shape)
+
 data = data.dropna(axis=0, subset=['Subject'])
-print(data.shape)
+print(data.head())
+
 df_to_ics(Filename="JC_schedule.ics", Hour=24, DF=data, Reminder=96)
