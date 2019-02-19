@@ -26,6 +26,7 @@ The function df_to_ics reads in five inputs:
 * Hour - Dictates whether the input time is in 12-hour or 24 hour format (input options = 12 or 24)
 * calendarName - the name of the calendar when imported (default="New Calendar")
 * reminder - the number of hours prior to the event at which to receive a reminder. If reminder = NULL then there is no reminder (default=NULL)
+* dateFormat - The date format for your data (e.g. YYYY/MM/DD or m/d/yy etc). Default is "DD-MM-YY". 
 
 ### Syncing ics feed to calendar
 Once the ics file is created save it to github/dropbox/google drive and use this url to sync. For github open the ics file then click 'raw' and use this url. To then sync this to the calendar:
@@ -34,13 +35,14 @@ Once the ics file is created save it to github/dropbox/google drive and use this
 * For Outlook: Add Calendar > From the Internet
 
 ## Examples
-To create an ics file for the [WHRI Computational Biology Journal Club schedule](https://github.com/WHRICompBio/WHRICompBio.github.io/blob/master/_data/schedule.csv):
+The WHRI_JC_Sync.py script creates a schedule for the [William Harvey Computation Biology Journal Club](https://whricompbio.github.io) from a google drive sheet. 
+
 ```
 import pandas as pd
 from DF_to_ICS import df_to_ics
 
 # Import the csv file and tidy the data frame
-data = pd.read_csv('https://raw.githubusercontent.com/WHRICompBio/WHRICompBio.github.io/master/_data/schedule.csv')
+data = pd.read_csv('path to csv')
 data.columns = ['Start Date', 'Subject']
 data['End Date'] = data['Start Date']
 data['End Time'] = "3:00pm"
