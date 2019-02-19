@@ -9,9 +9,9 @@
 # CalendarName - The calendar name when imported (default="New Calendar")
 # Reminder - the number of hours prior to the event at which to receive a reminder. If reminder = 'NULL' then there is no reminder (default='NULL')
 # ---------------------------
+import re
 
-
-def df_to_ics(DF, Filename, Hour, CalendarName="New Calendar", Reminder='NULL'):
+def df_to_ics(DF, Filename, Hour, CalendarName="New Calendar", Reminder='NULL', dateFormat="DD-MM-YY"):
 
     list_a = ["Subject",  "Start Date", "Start Time", "End Date", "End Time", "All Day", "Description", "Location", "UID"]
     list_b = list(DF.columns)
@@ -25,14 +25,18 @@ def df_to_ics(DF, Filename, Hour, CalendarName="New Calendar", Reminder='NULL'):
 
     def get_time(time):
         if Hour == 12: time = int(time[0]) *10000 + 120000 +  int(time[2:3])*100
-        else: time = int(time.replace(":", "")) *10000
+        else: time = int(time.replace(":", "")) *100
         return time
 
     def get_date(date):
-        year = date[0:4]
-        month = date[5:7]
+        index = [m.start() for m in re.finditer('y', dateFormat.lower())]
+        year = date[(index[0]+1):(index[-1]+2)] #date[0:4]
+        if len(year) == 2 : year = '20' + year
+        index = [m.start() for m in re.finditer('m', dateFormat.lower())]
+        month = date[(index[0]+1):(index[-1]+2)] #date[5:7]
         month = str('{num:02d}'.format(num=int(month)))
-        day = date[8:]
+        index = [m.start() for m in re.finditer('d', dateFormat.lower())]
+        day = date[(index[0]+1):(index[-1]+2)] #date[8:]
         day = str('{num:02d}'.format(num=int(day)))
         return year+month+day
 
@@ -46,15 +50,15 @@ def df_to_ics(DF, Filename, Hour, CalendarName="New Calendar", Reminder='NULL'):
 
     for index, row in DF.iterrows():
         F.write("BEGIN:VEVENT\nCLASS:PUBLIC\n")
-        F.write("DESCRIPTION:" + row['Description'] + "\n")
+        F.write("DESCRIPTION:" + str(row['Description']) + "\n")
         F.write("LOCATION:" + row['Location'] + "\n")
         F.write("DTSTAMP:" + row['Start Date'] + "T" + str(row['Start Time'])  + "\n")
         F.write("DTSTART:" + row['Start Date'] + "T" + str(row['Start Time'])  + "\n")
         F.write("DTEND:" + row['End Date'] + "T" + str(row['End Time']) + "\n")
-        F.write("UID:" + row['Subject'].split(' ', 1)[0] + row['Start Date'] + "T" + str(row['Start Time']) + "\n")
+        F.write("UID:" + str(row['Subject']).split(' ', 1)[0] + str(row['Start Date']) + "T" + str(row['Start Time']) + "\n")
         F.write("PRIORITY:5" + "\n")
         F.write("SEQUENCE:0" + "\n")
-        F.write("SUMMARY;LANGUAGE=en-us:" + row['Subject'] + "\n")
+        F.write("SUMMARY;LANGUAGE=en-us:" + str(row['Subject']) + "\n")
         F.write("X-MICROSOFT-CDO-ALLDAYEVENT:FALSE\nX-MICROSOFT-MSNCALENDAR-ALLDAYEVENT:FALSE\n")
         if Reminder != 'NULL':
             F.write("BEGIN:VALARM\nTRIGGER:-PT" + str(Reminder) +"H\nEND:VALARM\n")

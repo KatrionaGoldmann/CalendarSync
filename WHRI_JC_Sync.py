@@ -1,18 +1,29 @@
 
 import pandas as pd
+import numpy as np
 from DF_to_ICS import df_to_ics
 
-data = pd.read_csv('https://raw.githubusercontent.com/WHRICompBio/WHRICompBio.github.io/master/_data/schedule.csv')
-data.columns = ['Start Date', 'Subject']
-data['Subject'] = data['Subject'] + " presenting at journal club"
-data['End Date'] = data['Start Date']
-data['End Time'] = "3:00pm"
-data['Start Time'] = "2:00pm"
+data_safe = pd.read_csv('https://docs.google.com/spreadsheets/d/1GpVOQ7-AOOjBDWdbif6VaKv4LUEQT2bhpAnQc7X6FF4/gviz/tq?tqx=out:csv&sheet=Sheet1')
+
+data = data_safe
+data['Subject'] = data['Presenter'] + " presenting at journal club"
+
+data['Start Date'] = data['Date']
+data['End Date'] = data['Date']
+data['Start Time'] = data['Start Time'].astype(str).str.split().str[1]
+data['Start Time'] = data['Start Time'].str.split(":").str[0] + ':' + data['Start Time'].str.split(":").str[1]
+
+data['End Time'] = data['End Time'].astype(str).str.split().str[1]
+data['End Time'] = data['End Time'].str.split(":").str[0] + ':' + data['End Time'].str.split(":").str[1]
+
 data['All Day'] = "FALSE"
-data['Description'] = "see schedule and agenda: https://whricompbio.github.io"
+data['Description'] = data['Topic']
 data['UID'] = ""
-data['Location'] = "Biopharmacology meeting room"
+data['Location'] = data['Location'].fillna("Biopharmacology meeting room")
 
 data = data[["Subject", "Start Date", "Start Time", "End Date", "End Time", "All Day", "Description",	"Location",	"UID"]]
 
-df_to_ics(Filename="JC_schedule.ics", Hour=12, DF=data, Reminder=96)
+print(data.shape)
+data = data.dropna(axis=0, subset=['Subject'])
+print(data.shape)
+df_to_ics(Filename="JC_schedule.ics", Hour=24, DF=data, Reminder=96)
