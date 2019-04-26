@@ -46,7 +46,7 @@ def df_to_ics(DF, Filename, Hour, CalendarName="New Calendar", Reminder='NULL', 
     DF['End Date'] = [get_date(x) for x in DF['End Date']]
 
     F = open(Filename, "w")
-    F.write("BEGIN:VCALENDAR\nPRODID:-//CSV to iCal Convertor//KatrionaGoldmann//EN\nMETHOD:PUBLISH\nX-MS-OLK-FORCEINSPECTOROPEN:TRUE\nX-WR-CALNAME;VALUE=TEXT:" + CalendarName + "\n")
+    F.write("BEGIN:VCALENDAR\nPRODID:-//CSV to iCal Convertor//KatrionaGoldmann//EN\nMETHOD:PUBLISH\nX-MS-OLK-FORCEINSPECTOROPEN:TRUE\nX-WR-CALNAME;VALUE=TEXT:" + CalendarName + "\nX-WR-TIMEZONE:Europe/London\n")
 
     for index, row in DF.iterrows():
         F.write("BEGIN:VEVENT\nCLASS:PUBLIC\n")
